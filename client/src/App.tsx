@@ -1,45 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { authFetch, type User } from "./api";
+import AuthPage from "./pages/AuthPage";
+import Dashboard from "./pages/Dashboard";
+import ProfilePage from "./pages/ProfilePage";
+import Placeholder from "./pages/Placeholder";
 
-const API = "http://localhost:4000/api/auth";
+const TABS = [
+  { id: "dashboard", label: "🏠 Dashboard" },
+  { id: "runs", label: "📍 Runs" },
+  { id: "goals", label: "🎯 Goals" },
+  { id: "partners", label: "🤝 Partners" },
+  { id: "profile", label: "👤 Profile" },
+] as const;
+
+type TabId = (typeof TABS)[number]["id"];
 
 export default function App() {
-  const [mode, setMode] = useState<"login" | "register">("login");
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const [error, setError] = useState("");
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<TabId>("dashboard");
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    const res = await fetch(`${API}/${mode}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    if (!res.ok) return setError(data.error);
-    localStorage.setItem("token", data.token);
-    setUser(data.user);
+  const loadUser = async () => {
+    if (!localStorage.getItem("token")) return setLoading(false);
+    const res = await authFetch("/me");
+    if (res.ok) setUser(await res.json());
+    else localStorage.removeItem("token");
+    setLoading(false);
   };
 
-  if (user) return <h2>Welcome, {user.name}! 🏃</h2>;
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    setTab("dashboard");
+  };
+
+  if (loading) return <p className="muted center">Loading...</p>;
+  if (!user) return <AuthPage onAuthed={loadUser} />;
 
   return (
-    <form onSubmit={submit} style={{ maxWidth: 320, margin: "40px auto", display: "grid", gap: 10 }}>
-      <h2>{mode === "login" ? "Log in" : "Create account"}</h2>
-      {mode === "register" && (
-        <input placeholder="Name" value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })} />
-      )}
-      <input placeholder="Email" type="email" value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })} />
-      <input placeholder="Password" type="password" value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })} />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button type="submit">{mode === "login" ? "Log in" : "Sign up"}</button>
-      <button type="button" onClick={() => setMode(mode === "login" ? "register" : "login")}>
-        {mode === "login" ? "Need an account? Register" : "Have an account? Log in"}
-      </button>
-    </form>
+    <div className="app">
+      <header className="topbar">
+        <span className="brand">🏃 RunTogether</span>
+        <div className="user-area">
+          <span className="muted">{user.name}</span>
+          <button className="btn-small" onClick={logout}>Log out</button>
+        </div>
+      </header>
+
+      <nav className="tabs">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            className={`tab ${tab === t.id ? "active" : ""}`}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
+      <main className="content">
+        {tab === "dashboard" && <Dashboard user={user} />}
+        {tab === "runs" && (
+          <Placeholder title="Your runs" text="Log runs and see your progress charts here." />
+        )}
+        {tab === "goals" && (
+          <Placeholder title="Your goals" text="Set targets like a 10K under 55 minutes and track them." />
+        )}
+        {tab === "partners" && (
+          <Placeholder title="Find running partners" text="Discover runners nearby with a similar pace and schedule." />
+        )}
+        {tab === "profile" && <ProfilePage user={user} onUpdate={setUser} />}
+      </main>
+    </div>
   );
 }
