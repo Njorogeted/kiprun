@@ -4,6 +4,7 @@ import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
 import Placeholder from "./pages/Placeholder";
+import RunsPage from "./pages/RunsPage";
 
 const TABS = [
   { id: "dashboard", label: "🏠 Dashboard" },
@@ -65,9 +66,7 @@ export default function App() {
 
       <main className="content">
         {tab === "dashboard" && <Dashboard user={user} />}
-        {tab === "runs" && (
-          <Placeholder title="Your runs" text="Log runs and see your progress charts here." />
-        )}
+        {tab === "runs" && <RunsPage />}
         {tab === "goals" && (
           <Placeholder title="Your goals" text="Set targets like a 10K under 55 minutes and track them." />
         )}

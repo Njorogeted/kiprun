@@ -1,4 +1,5 @@
 import express from "express";
+import runRoutes from "./routes/runs";
 import meRoutes from "./routes/me";
 import authRoutes from "./routes/auth";
 import cors from "cors";
@@ -9,8 +10,10 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/me", meRoutes);
+app.use("/api/runs", runRoutes);
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
