@@ -40,3 +40,16 @@ export const formatDuration = (seconds: number) => {
   const ss = String(s).padStart(2, "0");
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 };
+export type Pt = { lat: number; lng: number; t: number };
+export type Others = { id: number; name: string; lat: number; lng: number };
+
+// Distance in meters between two GPS points (haversine)
+export const distanceM = (a: Pt, b: Pt) => {
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLng = rad(b.lng - a.lng);
+  const x =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(x));
+};

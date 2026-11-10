@@ -53,7 +53,7 @@ export default function RunsPage() {
   return (
     <div className="stack">
       <form className="card form wide" onSubmit={addRun}>
-        <h2>Log a run</h2>
+        <h2>Add a run manually</h2>
         <div className="row">
           <label>Distance (km)
             <input type="number" step="0.01" min="0" value={form.distance}

@@ -1,3 +1,4 @@
+import PartnersPage from "./pages/PartnersPage"
 import { useEffect, useState } from "react";
 import { authFetch, type User } from "./api";
 import AuthPage from "./pages/AuthPage";
@@ -70,10 +71,10 @@ export default function App() {
         {tab === "goals" && (
           <Placeholder title="Your goals" text="Set targets like a 10K under 55 minutes and track them." />
         )}
-        {tab === "partners" && (
-          <Placeholder title="Find running partners" text="Discover runners nearby with a similar pace and schedule." />
-        )}
-        {tab === "profile" && <ProfilePage user={user} onUpdate={setUser} />}
+	<div style={tab === "partners" ? {} : { height: 0, overflow: "hidden", visibility: "hidden" }}>
+	  <PartnersPage />
+	</div>
+         {tab === "profile" && <ProfilePage user={user} onUpdate={setUser} />}
       </main>
     </div>
   );
