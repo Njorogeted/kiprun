@@ -35,7 +35,6 @@ export default function App() {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem("shareLocation");
     localStorage.removeItem("token");
     setUser(null);
     setTab("dashboard");
@@ -70,7 +69,8 @@ export default function App() {
         {tab === "dashboard" && <Dashboard user={user} />}
         {tab === "runs" && <RunsPage />}
         {tab === "goals" && (
-          <Placeholder title="Your goals" text="Set targets like a 10K under 55 minutes and track them." />
+          <Placeholder title="Your goals" image="/images/goals.jpg"
+         text="Set targets like a 10K under 55 minutes and track them." />
         )}
 	<div style={tab === "partners" ? {} : { height: 0, overflow: "hidden", visibility: "hidden" }}>
 	  <PartnersPage />

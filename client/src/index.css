@@ -1,54 +1,25 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --navy-900: #050b1f;
+  --navy-800: #0a1535;
+  --navy-700: #101f4d;
+  --line: #1c3068;
+  --neon: #39ff14;
+  --neon-dark: #2bd40f;
+  --txt: #f4f7ff;
+  --txt-dim: #8fa3d6;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* remap the old variables so existing styles pick up the theme */
+  --bg: var(--navy-900);
+  --card: var(--navy-800);
+  --text: var(--txt);
+  --muted: var(--txt-dim);
+  --primary: var(--neon);
+  --primary-dark: var(--neon-dark);
+  --border: var(--line);
+  --danger: #ff6b6b;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
 
 #root {
   width: 1126px;
@@ -238,4 +209,39 @@ input[type="checkbox"] { width: auto; }
   .rp-split-img, .rp-run-img { min-height: 180px; }
   .rp-highlights { grid-template-columns: 1fr; }
   .rp-hl { min-height: 180px; }
+}
+/* ===== Theme extras for all pages ===== */
+body { background: var(--navy-900); }
+.brand { font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; }
+.btn { color: var(--navy-900); font-weight: 800; box-shadow: 0 0 18px rgba(57, 255, 20, 0.3); }
+.btn-stop { color: #fff; box-shadow: none; }
+.topbar { border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.tab { font-weight: 700; text-transform: uppercase; font-size: 13px; letter-spacing: 0.06em; }
+.tab.active { text-shadow: 0 0 12px rgba(57, 255, 20, 0.5); }
+
+/* Shared bits */
+.rp-hero-sm { min-height: 260px; }
+.rp-hero .rp-h1 { font-size: clamp(40px, 9vw, 80px); line-height: 0.95; font-style: italic; }
+.rp-card { background: var(--navy-800); border: 1px solid var(--line); border-radius: 16px; max-width: 620px; }
+.rp-ok { margin: 0; color: var(--neon); font-weight: 700; }
+.rp-form input:disabled { opacity: 0.55; }
+
+/* Partners: theme the tracker card around the map (map itself untouched) */
+.rp .tracker { background: var(--navy-800); border-radius: 16px; padding: 22px; }
+.rp .tracker-stats strong { font-size: clamp(28px, 6vw, 44px); font-weight: 900; font-style: italic; }
+.rp .tracker-stats span { text-transform: uppercase; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; }
+.rp .tracker .btn { padding: 14px; font-size: 16px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Login / register */
+.auth-split { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 1fr; background: var(--navy-900); }
+.auth-img { min-height: 100%; }
+.auth-panel { display: grid; place-items: center; padding: 24px; }
+.auth-form { width: 100%; max-width: 380px; padding: 0; }
+.auth-form .brand { font-size: 22px; color: var(--neon); }
+.auth-form h2 { font-size: clamp(32px, 5vw, 48px); }
+
+@media (max-width: 700px) {
+  .auth-split { grid-template-columns: 1fr; }
+  .auth-img { min-height: 200px; }
+  .rp-hero-sm { min-height: 200px; }
 }

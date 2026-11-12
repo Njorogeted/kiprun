@@ -1,9 +1,12 @@
-export default function Placeholder({ title, text }: { title: string; text: string }) {
+import PageHero from "../components/PageHero";
+
+export default function Placeholder({
+  title, text, image,
+}: { title: string; text: string; image: string }) {
   return (
-    <div className="card empty">
-      <h2>{title}</h2>
-      <p className="muted">{text}</p>
-      <span className="badge">Coming soon</span>
+    <div className="rp">
+      <PageHero image={image} eyebrow="Coming soon" title={title} subtitle={text} />
+      <div className="rp-empty">We're building this next. Check back soon.</div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { API } from "../api";
+import ImageSlot from "../components/ImageSlot";
 
 export default function AuthPage({ onAuthed }: { onAuthed: () => void }) {
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -21,29 +22,33 @@ export default function AuthPage({ onAuthed }: { onAuthed: () => void }) {
   };
 
   return (
-    <div className="auth-wrap">
-      <form className="card auth-card" onSubmit={submit}>
-        <h1 className="brand">🏃 RunTogether</h1>
-        <p className="muted">
-          {mode === "login" ? "Welcome back. Log in to continue." : "Create your account."}
-        </p>
-        {mode === "register" && (
-          <input placeholder="Name" value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        )}
-        <input placeholder="Email" type="email" value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })} />
-        <input placeholder="Password" type="password" value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })} />
-        {error && <p className="error">{error}</p>}
-        <button className="btn" type="submit">
-          {mode === "login" ? "Log in" : "Sign up"}
-        </button>
-        <button className="btn-link" type="button"
-          onClick={() => setMode(mode === "login" ? "register" : "login")}>
-          {mode === "login" ? "Need an account? Register" : "Have an account? Log in"}
-        </button>
-      </form>
+    <div className="auth-split">
+      <ImageSlot src="/images/auth.jpg" className="auth-img" />
+      <div className="auth-panel">
+        <form className="rp-form auth-form" onSubmit={submit}>
+          <span className="brand">🏃 RunTogether</span>
+          <h2>{mode === "login" ? "Welcome back" : "Join the run"}</h2>
+          <p className="rp-muted">
+            {mode === "login" ? "Log in to keep moving." : "Create your account and find your pace."}
+          </p>
+          {mode === "register" && (
+            <input placeholder="Name" value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          )}
+          <input placeholder="Email" type="email" value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <input placeholder="Password" type="password" value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          {error && <p className="rp-error">{error}</p>}
+          <button className="rp-btn" type="submit">
+            {mode === "login" ? "Log in" : "Sign up"}
+          </button>
+          <button className="btn-link" type="button"
+            onClick={() => setMode(mode === "login" ? "register" : "login")}>
+            {mode === "login" ? "Need an account? Register" : "Have an account? Log in"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
