@@ -131,3 +131,10 @@ input[type="checkbox"] { width: auto; }
 .btn-stop:hover { background: #b91c1c; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .map { height: 340px; width: 100%; border-radius: 10px; z-index: 0; }
+
+.leaflet-tooltip {
+  font-weight: 600;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 6px;
+}

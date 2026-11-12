@@ -10,7 +10,7 @@ const today = () => new Date().toLocaleDateString("en-CA");
 
 export default function RunTracker({ onSaved }: { onSaved: () => void }) {
   const [running, setRunning] = useState(false);
-  const [share, setShare] = useState(false);
+  const [share, setShare] = useState(() => localStorage.getItem("shareLocation") === "true");
   const [current, setCurrent] = useState<{ lat: number; lng: number } | null>(null);
   const [route, setRoute] = useState<Pt[]>([]);
   const [distance, setDistance] = useState(0); // meters
@@ -133,11 +133,12 @@ useEffect(() => {
     onSaved();
   };
 
-  const toggleShare = (on: boolean) => {
-    setShare(on);
-    shareRef.current = on;
-    if (!on) authFetch("/live", { method: "DELETE" });
-  };
+ const toggleShare = (on: boolean) => {
+  setShare(on);
+  shareRef.current = on;
+  localStorage.setItem("shareLocation", String(on));
+  if (!on) authFetch("/live", { method: "DELETE" });
+};
 
   const km = distance / 1000;
 

@@ -30,15 +30,19 @@ export default function LiveMap({
         <Polyline positions={route.map((p) => [p.lat, p.lng] as [number, number])} />
       )}
       {me && (
+        
         <CircleMarker center={[me.lat, me.lng]} radius={9}
           pathOptions={{ color: "#fff", weight: 3, fillColor: "#16a34a", fillOpacity: 1 }}>
           <Tooltip>You</Tooltip>
+          <Tooltip permanent direction="top" offset={[0, -10]}>You</Tooltip>
         </CircleMarker>
       )}
       {others.map((o) => (
+        
         <CircleMarker key={o.id} center={[o.lat, o.lng]} radius={8}
           pathOptions={{ color: "#fff", weight: 2, fillColor: "#2563eb", fillOpacity: 1 }}>
           <Tooltip>{o.name} (running)</Tooltip>
+          <Tooltip permanent direction="top" offset={[0, -10]}>{o.name}</Tooltip>
         </CircleMarker>
       ))}
     </MapContainer>

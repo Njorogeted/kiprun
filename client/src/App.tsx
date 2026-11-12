@@ -35,6 +35,7 @@ export default function App() {
   }, []);
 
   const logout = () => {
+    localStorage.removeItem("shareLocation");
     localStorage.removeItem("token");
     setUser(null);
     setTab("dashboard");
